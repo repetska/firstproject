@@ -1,9 +1,41 @@
-<!doctype html>
-<html>
-  <head>
-    <title>First project</title>
-  </head>
-  <body>
-    <h1>First project</h1>
-  </body>
-</html>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гра на швидкість</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #score {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #start-btn, #game-btn {
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <div id="score">Очки: <span id="score-value">0</span></div>
+    <button id="start-btn" onclick="startGame()">Почати гру</button>
+    <button id="game-btn" onclick="increaseScore()" style="display: none;">Натискай!</button>
+</div>
+
+<script src="index.js"></script>
+
+</body>
+</html>
