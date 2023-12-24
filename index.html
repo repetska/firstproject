@@ -20,6 +20,10 @@
             font-size: 24px;
             margin-bottom: 20px;
         }
+        #timer {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
         #start-btn, #game-btn {
             font-size: 16px;
             padding: 10px 20px;
@@ -41,14 +45,21 @@
             0% { transform: translateY(0) scale(1); opacity: 1; }
             100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
         }
+        #high-scores {
+            font-size: 16px;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div id="game-container">
     <div id="score">Очки: <span id="score-value">0</span></div>
+    <div id="high-scores">Рекорди: <span id="high-scores-value"></span></div>
+    <div id="timer">Час: <span id="timer-value">60</span> сек</div>
     <button id="start-btn" onclick="startGame()">Почати гру</button>
     <button id="game-btn" onclick="increaseScore()" style="display: none;">Натискай!</button>
+    <button id="restart-btn" onclick="restartGame()" style="display: none;">Нова гра</button>
 </div>
 
 <script src="index.js"></script>

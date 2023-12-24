@@ -1,17 +1,31 @@
 let score = 0;
     let gameInterval;
     let gameDuration = 60; 
+    let timer;
 
     function startGame() {
         score = 0;
         updateScore();
         document.getElementById('start-btn').disabled = true;
         document.getElementById('game-btn').style.display = 'block';
-        gameInterval = setInterval(endGame, gameDuration * 1000);
+        document.getElementById('restart-btn').style.display = 'none';
+        timer = gameDuration;
+        updateTimer();
+        gameInterval = setInterval(updateTimer, 1000);
         moveButton();
         playMusic();
         clearStars();
     }
+
+    function updateTimer() {
+        document.getElementById('timer-value').innerText = timer;
+        if (timer === 0) {
+            endGame();
+        } else {
+            timer--;
+        }
+    }
+
     function playMusic() {
         document.getElementById('background-music').play();
     }
@@ -43,7 +57,10 @@ let score = 0;
         clearInterval(gameInterval);
         document.getElementById('start-btn').disabled = false;
         document.getElementById('game-btn').style.display = 'none';
+        document.getElementById('restart-btn').style.display = 'block';
         stopMusic();
+        saveHighScore();
+        displayHighScores();
         alert('Гра закінчена! Ваш результат: ' + score);
     }
 
@@ -81,4 +98,24 @@ let score = 0;
         while (stars.length > 0) {
             stars[0].parentNode.removeChild(stars[0]);
         }
+    }
+
+    function restartGame() {
+        clearInterval(gameInterval);
+        document.getElementById('game-btn').style.display = 'none';
+        document.getElementById('restart-btn').style.display = 'none';
+        startGame();
+    }
+
+    function saveHighScore() {
+        let highScores = localStorage.getItem('highScores') ? JSON.parse(localStorage.getItem('highScores')) : [];
+        highScores.push(score);
+        highScores.sort((a, b) => b - a);
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+    }
+
+    function displayHighScores() {
+        let highScores = localStorage.getItem('highScores') ? JSON.parse(localStorage.getItem('highScores')) : [];
+        let highScoresElement = document.getElementById('high-scores-value');
+        highScoresElement.innerText = highScores.join(', ');
     }
