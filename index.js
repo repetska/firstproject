@@ -1,6 +1,6 @@
 let score = 0;
     let gameInterval;
-    let gameDuration = 60; // тривалість гри у секундах
+    let gameDuration = 60; 
 
     function startGame() {
         score = 0;
@@ -9,6 +9,11 @@ let score = 0;
         document.getElementById('game-btn').style.display = 'block';
         gameInterval = setInterval(endGame, gameDuration * 1000);
         moveButton();
+        playMusic();
+        clearStars();
+    }
+    function playMusic() {
+        document.getElementById('background-music').play();
     }
 
     function moveButton() {
@@ -26,6 +31,7 @@ let score = 0;
     function increaseScore() {
         score++;
         updateScore();
+        spawnStars();
         moveButton();
     }
 
@@ -37,5 +43,42 @@ let score = 0;
         clearInterval(gameInterval);
         document.getElementById('start-btn').disabled = false;
         document.getElementById('game-btn').style.display = 'none';
+        stopMusic();
         alert('Гра закінчена! Ваш результат: ' + score);
+    }
+
+    function stopMusic() {
+        document.getElementById('background-music').pause();
+        document.getElementById('background-music').currentTime = 0;
+    }
+
+    function spawnStars() {
+        for (let i = 0; i < 5; i++) {
+            createStar();
+        }
+    }
+
+    function createStar() {
+        let star = document.createElement('div');
+        star.className = 'star';
+        document.getElementById('game-container').appendChild(star);
+
+        let button = document.getElementById('game-btn');
+        let rect = button.getBoundingClientRect();
+        let starX = rect.left + Math.random() * rect.width;
+        let starY = rect.top + Math.random() * rect.height;
+
+        star.style.left = starX + 'px';
+        star.style.top = starY + 'px';
+
+        setTimeout(() => {
+            star.remove();
+        }, 500);
+    }
+
+    function clearStars() {
+        let stars = document.getElementsByClassName('star');
+        while (stars.length > 0) {
+            stars[0].parentNode.removeChild(stars[0]);
+        }
     }
