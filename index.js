@@ -5,10 +5,10 @@ let score = 0;
 
     function startGame() {
         score = 0;
+        displayHighScore();
         updateScore();
         document.getElementById('start-btn').disabled = true;
         document.getElementById('game-btn').style.display = 'block';
-        document.getElementById('restart-btn').style.display = 'none';
         timer = gameDuration;
         updateTimer();
         gameInterval = setInterval(updateTimer, 1000);
@@ -57,11 +57,10 @@ let score = 0;
         clearInterval(gameInterval);
         document.getElementById('start-btn').disabled = false;
         document.getElementById('game-btn').style.display = 'none';
-        document.getElementById('restart-btn').style.display = 'block';
         stopMusic();
-        saveHighScore();
-        displayHighScores();
         alert('Гра закінчена! Ваш результат: ' + score);
+        saveHighScore();
+        displayHighScore();
     }
 
     function stopMusic() {
@@ -103,19 +102,19 @@ let score = 0;
     function restartGame() {
         clearInterval(gameInterval);
         document.getElementById('game-btn').style.display = 'none';
-        document.getElementById('restart-btn').style.display = 'none';
         startGame();
+        score = 0;
+        displayHighScore();
     }
 
     function saveHighScore() {
-        let highScores = localStorage.getItem('highScores') ? JSON.parse(localStorage.getItem('highScores')) : [];
-        highScores.push(score);
-        highScores.sort((a, b) => b - a);
-        localStorage.setItem('highScores', JSON.stringify(highScores));
+        let currentHighScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
+        if (score > currentHighScore) {
+            localStorage.setItem('highScore', score);
+        }
     }
 
-    function displayHighScores() {
-        let highScores = localStorage.getItem('highScores') ? JSON.parse(localStorage.getItem('highScores')) : [];
-        let highScoresElement = document.getElementById('high-scores-value');
-        highScoresElement.innerText = highScores.join(', ');
+    function displayHighScore() {
+        let currentHighScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
+        document.getElementById('high-score-value').innerText = currentHighScore;
     }
